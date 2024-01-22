@@ -2,9 +2,14 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, 
+    initial-scale=1.0">
+    <title>Login form in HTML and CSS | Codehal</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
+
 <body>
     
 
@@ -12,28 +17,82 @@
         <form action="">
             <h1>Login</h1>
             <div class="input-box">
-                <input type="text" placeholder="Username" required>
+                <input type="email"  id="signUpEmail" placeholder="email" required>
+                <i class='bx bxs-user'></i>
             </div>  
 
             <div class="input-box">
-                <input type="password" placeholder="password" required>
+                <input type="paswword" id="signUpPassword" placeholder="Password" required>
+                <i class='bx bxs-lock-alt' ></i>
             </div>
 
             <div class="remember-forgot">
-                <label><input type="checkbox">Remember
-                    me</label>
-                    <a href="#">Forgot password?</a>
+                <label><input type="checkbox">Rememberme</label><a href="#">Forgot password?</a>
             </div>
 
             <button type="submit" class="btn">Login</button>
 
             <div class="register-link">
-                <p>Don't have an account? <a 
-                    href="#">Register</a></p>
+                <p>Don't have an account? <a href="#" id="registerlink">Register</a></p>
             </div>
         </form>
-    </div>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+          
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+              apiKey: "AIzaSyDjzzCgi9VJARcbkHt3FR4_8mrVYA-kpL8",
+              authDomain: "easylogin-20275.firebaseapp.com",
+              projectId: "easylogin-20275",
+              storageBucket: "easylogin-20275.appspot.com",
+              messagingSenderId: "655403589413",
+              appId: "1:655403589413:web:c3f2e2fd9e70d376e6c4cc",
+              measurementId: "G-F6Z43V7D03"
+            };
+          
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            
+            import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+            const auth=getAuth(); 
 
+            document.getElementById('registerlink').addEventListener('click',(event)=> {
+                event.preventDefault()
+                const email=document.getElementById('signUpEmail').value 
+                const password=document.getElementById('signUpPassword').value                    
+                
+                createUserWithEmailAndPassword(auth,email,password)                
+                    .then((userCredential) => {
+                        console.log(userCredential)
+                        const user= userCredential.user
+                    })
+                    .catch((error) => {
+                        console.log('error')
+                        const errorCode=error.code; 
+                        const errorMessage=error.message;
+                    });
+            }) 
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                });
+
+            console.log('hello world')
+            console.log(app)
+            </script> 
 
 </body>
 </html>
